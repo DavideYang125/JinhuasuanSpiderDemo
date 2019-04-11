@@ -62,58 +62,67 @@ namespace JinhuasuanSpiderTool
                 storeDetailInfo.img = upLoadAddResult.Item2;
                 //轮播外景
                 Console.WriteLine($"storeId--{storeId.ToString()}--轮播外景处理完成");
-
                 //logo img
                 var logoImg = storeDetailInfo.logo;
-                logoImg = imgHost + logoImg;
-                var logoImgList = new List<string>() { logoImg };
-                var upLoadLogoResult = GetNewImgStr(storeId, logoImgList, (int)ImgTyepe.logo);
-                if (!upLoadLogoResult.Item1)
+                if (logoImg.ToLower().Contains("jpg") || logoImg.ToLower().Contains("png"))
                 {
-                    return;
+                    logoImg = imgHost + logoImg;
+                    var logoImgList = new List<string>() { logoImg };
+                    var upLoadLogoResult = GetNewImgStr(storeId, logoImgList, (int)ImgTyepe.logo);
+                    if (!upLoadLogoResult.Item1)
+                    {
+                        return;
+                    }
+                    storeDetailInfo.logo = upLoadLogoResult.Item2;
+                    Console.WriteLine($"storeId--{storeId.ToString()}--logo处理完成");
                 }
-                storeDetailInfo.logo = upLoadLogoResult.Item2;
-                Console.WriteLine($"storeId--{storeId.ToString()}--logo处理完成");
+
                 //weixin logo
                 var weixin_logo = storeDetailInfo.weixin_logo;
-                weixin_logo = imgHost + weixin_logo;
-
-                var weiXinImgList = new List<string>() { weixin_logo };
-                var upLoadWeixinResult = GetNewImgStr(storeId, weiXinImgList, (int)ImgTyepe.logo);
-                if (!upLoadWeixinResult.Item1)
+                if (weixin_logo.ToLower().Contains("jpg") || weixin_logo.ToLower().Contains("png"))
                 {
-                    return;
+                    weixin_logo = imgHost + weixin_logo;
+
+                    var weiXinImgList = new List<string>() { weixin_logo };
+                    var upLoadWeixinResult = GetNewImgStr(storeId, weiXinImgList, (int)ImgTyepe.logo);
+                    if (!upLoadWeixinResult.Item1)
+                    {
+                        return;
+                    }
+                    storeDetailInfo.weixin_logo = upLoadWeixinResult.Item2;
+                    Console.WriteLine($"storeId--{storeId.ToString()}--weixin处理完成");
                 }
-                storeDetailInfo.weixin_logo = upLoadWeixinResult.Item2;
-                Console.WriteLine($"storeId--{storeId.ToString()}--weixin处理完成");
-
-
 
                 //身份证img
                 var sfzimg = storeDetailInfo.sfz_img;
-                sfzimg = imgHost + sfzimg;
-
-                var sfImgList = new List<string>() { sfzimg };
-                var upLoadsfResult = GetNewImgStr(storeId, sfImgList, (int)ImgTyepe.Identify);
-                if (!upLoadsfResult.Item1)
+                if (sfzimg.ToLower().Contains("jpg") || sfzimg.ToLower().Contains("png"))
                 {
-                    return;
+                    sfzimg = imgHost + sfzimg;
+
+                    var sfImgList = new List<string>() { sfzimg };
+                    var upLoadsfResult = GetNewImgStr(storeId, sfImgList, (int)ImgTyepe.Identify);
+                    if (!upLoadsfResult.Item1)
+                    {
+                        return;
+                    }
+                    storeDetailInfo.sfz_img = upLoadsfResult.Item2;
+                    Console.WriteLine($"storeId--{storeId.ToString()}--身份证img处理完成");
                 }
-                storeDetailInfo.sfz_img = upLoadsfResult.Item2;
-                Console.WriteLine($"storeId--{storeId.ToString()}--身份证img处理完成");
 
                 //营业执照img
                 var yyzz_img = storeDetailInfo.yyzz_img;
-                yyzz_img = imgHost + yyzz_img;
-                var yyImgList = new List<string>() { yyzz_img };
-                var upLoadyyResult = GetNewImgStr(storeId, yyImgList, (int)ImgTyepe.Identify);
-                if (!upLoadyyResult.Item1)
+                if (yyzz_img.ToLower().Contains("jpg") || yyzz_img.ToLower().Contains("png"))
                 {
-                    return;
+                    yyzz_img = imgHost + yyzz_img;
+                    var yyImgList = new List<string>() { yyzz_img };
+                    var upLoadyyResult = GetNewImgStr(storeId, yyImgList, (int)ImgTyepe.Identify);
+                    if (!upLoadyyResult.Item1)
+                    {
+                        return;
+                    }
+                    storeDetailInfo.yyzz_img = upLoadyyResult.Item2;
+                    Console.WriteLine($"storeId--{storeId.ToString()}--yyzz img处理完成");
                 }
-                storeDetailInfo.yyzz_img = upLoadsfResult.Item2;
-                Console.WriteLine($"storeId--{storeId.ToString()}--yyzz img处理完成");
-
 
                 var newJson = JsonConvert.SerializeObject(storeDetailInfo);
                 storeInfo.UpdateTime = DateTime.Now;
@@ -202,7 +211,7 @@ namespace JinhuasuanSpiderTool
         {
             try
             {
-                var url = $"http:///api/storage/publicsmallprogram/v1/Upload/Post?resource_source={type.ToString()}";
+                var url = $"";
                 using (HttpClient _client = new HttpClient())
                 {
                     _client.DefaultRequestHeaders.Add("Platform", "wuqdIy%2fjx8TM3hFo1OnNrQ%3d%3d");

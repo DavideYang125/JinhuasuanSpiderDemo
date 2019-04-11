@@ -344,65 +344,11 @@ namespace JinhuasuanSpiderTool
             {
                 LogHelper.WriteLogs(ex.ToString(), "exception");
             }
-
         }
-
-        public static int CreateStoreWithImg(EditStoresForgerParam storeparam, List<string> imgPath)
-        {
-            var url = "";
-            var jsonContent = JsonConvert.SerializeObject(storeparam);
-            StringContent content = new StringContent(JsonConvert.SerializeObject(storeparam), Encoding.UTF8,
-                               "application/json");
-            try
-            {
-                using (HttpClient _client = new HttpClient())
-                {
-                    using (var multiContent = new MultipartFormDataContent())
-                    {
-                        var values = new[]
-                        {
-                            new KeyValuePair<string,string>("param",jsonContent)
-                        };
-                        foreach (var keyValuePair in values)
-                        {
-                            multiContent.Add(new StringContent(keyValuePair.Value), keyValuePair.Key);
-                        }
-                        foreach (var item in imgPath)
-                        {
-                            var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(item));
-                            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                            {
-                                FileName = "Foo.txt"
-                            };
-                        }
-                    }
-                    _client.DefaultRequestHeaders.Add("Forgery", "Forgery");
-
-                    HttpResponseMessage response = _client.PostAsync(url, content).Result;
-                    string data = response.Content.ReadAsStringAsync().Result;
-                    if (data.Contains("{\"msg\":\"此店铺名称已被使用")) return -1;
-                    if (data.Contains("\"msg\":\"")) return -2;
-                    // if(data.con) {"msg":"此店铺名称已被使用"
-                    //  {\"msg\":\"此店铺名称已被使用"
-                    UserResponse r = JsonConvert.DeserializeObject<UserResponse>(data);
-                    if (r.response.success)
-                    {
-                        return r.response.id;
-                    }
-                    //获取userid 失败
-                    return -2;
-                }
-            }
-            catch (Exception)
-            {
-                return -2;
-            }
-        }
-
 
         public static int CreateStore(EditStoresForgerParam param)
         {
-            var url = "http://api-dev.deiyoudian.com/api/store/publicsmallprogram/v1/forgery/addstores";
+            var url = "";
             try
             {
                 using (HttpClient _client = new HttpClient())
@@ -451,7 +397,7 @@ namespace JinhuasuanSpiderTool
                     param.address = addresss;
                     StringContent content = new StringContent(JsonConvert.SerializeObject(param), Encoding.UTF8,
                                 "application/json");
-                    HttpResponseMessage response = _client.PostAsync("http://api-dev.deiyoudian.com/api/user/publicsmallprogram/v1/forgery/usersregister", content).Result;
+                    HttpResponseMessage response = _client.PostAsync("", content).Result;
                     string data = response.Content.ReadAsStringAsync().Result;
                     if (data.Contains("\"msg\":\"-1\"")) return -1;
 
