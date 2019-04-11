@@ -10,10 +10,11 @@ namespace JinhuasuanSpiderTool
     {
         static void Main(string[] args)
         {
+            DataHandle.SyncData();
+            return;
             ImgHandle.ReplaceImgUrl();
             return;
+           
         }
-
-        
     }
 }
